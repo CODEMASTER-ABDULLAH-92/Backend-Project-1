@@ -1,0 +1,46 @@
+<!-- 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <div class="h-lvh w-full bg-zinc-800 text-white p-10">
+    <h2 class="text-4xl font-bold ml-7"> All Users</h2>
+
+    <div class="flex flex-wrap gap-10">
+      <% if(users.length > 0 ){%>
+        
+        <% users.forEach(function(ee){ %>
+          <div class="h-96 w-64 bg-zinc-600 mt-4 rounded-md p-3">
+            <div class="w-full bg-red-700 rounded-md h-60 overflow-hidden">
+              <img class="h-full w-full object-cover" src="<%= ee.image%>" alt="">
+            </div>
+            <h2 class="text-2xl mt-3 font-medium"><%= ee.name%></h2>
+            <p class="mt-2 text-xl text-zinc-400"><%= ee.email%></p>
+            <div class="flex gap-3 mt-4">
+              <a href="/edit/<%= ee._id %>" class="text-zinc-400">Edite User</a>
+              <a href="/delete/<%= ee._id %>" class="text-red-600">Delete User</a>
+            </div>
+          </div>
+          <% }) %>
+        <%} 
+        else{%>
+          <h3 class="text-zinc-500 ml-6">No Users Yet</h3>
+          <%}
+        %>
+    </div>
+  </div>
+</body>
+</html>
+
+app.post('/update/:id',async (req,res)=>{
+    let {name,email,image} = req.body;
+    let user = await  userModel.findOneAndUpdate({_id: req.params.id},{name,email,image},{new:true})
+    //Here this user come to frontent in value field
+    res.redirect('/read')
+});
